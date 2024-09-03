@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enviar Solicitud DELETE</title>
+</head>
+<body>
+    <h1>Probar Solicitud DELETE</h1>
+    <form id="deleteForm">
+        <label for="resourceId">ID del recurso:</label>
+        <input type="text" id="resourceId" name="resourceId" required>
+        <input type="submit" value="Eliminar Recurso">
+    </form>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Obtener el ID del recurso del formulario
+            const resourceId = document.getElementById('resourceId').value;
+
+            // URL del recurso que deseas eliminar
+            const url = `http://localhost:8083/${resourceId}`;
+
+            // Enviar solicitud DELETE
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer tu_token' // Reemplaza con tu token si es necesario
+                }
+            })
+            .then(response => {
+                // Verificar el tipo de contenido de la respuesta
+                const contentType = response.headers.get('Content-Type');
+                
+                if (!response.ok) {
+                    // Si la respuesta no es exitosa, manejar el error
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json();
+                } else {
+                    return response.text();
+                }
+            })
+            .then(data => {
+                // Mostrar la respuesta en el div
+                if (typeof data === 'string') {
+                    document.getElementById('response').innerText = data;
+                } else {
+                    document.getElementById('response').innerText = JSON.stringify(data, null, 2);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Mostrar un mensaje de error más amigable
+                document.getElementById('response').innerText = `Error: ${error.message}`;
+            });
+        });
+    </script>
+</body>
+</html>

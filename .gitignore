@@ -1,0 +1,33 @@
+# C compiled binaries:
+*.o
+*.out
+*.a
+
+# Valgrind:
+*.supp
+*.dSYM
+
+# Miscellaneous:
+*.log
+*.txt
+
+webserv
+config/default.conf
+test/test.conf
+
+# VS Code:
+/.vscode/
+
+# Linux:
+.directory
+.Trash-*
+
+# Mac OS:
+.DS_Store
+
+# Pruebas DELETE
+111
+222
+333
+444
+/files
